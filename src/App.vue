@@ -6,21 +6,28 @@
     <ul>
       <li v-for="(book, index) in books" :key="index">
         {{ book.title }}, {{ book.price }}$
-        <button @click="removeBook">Delete book</button>
+        <button @click="removeBook(index)">Delete book</button>
       </li>
     </ul>
-    <p v-show="!books.length">No books...</p>
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="onSubmit">
       <label>
         Title:
-        <input v-model="form.title" type="text" name="title">{{ form.title }}
+        <input v-model="form.title" type="text" name="title">
       </label>
       <label>
         Price:
-        <input v-model="form.price" type="number" name="price">{{ form.price }}
+        <input v-model="form.price" type="number" name="price">
       </label>
-      <button>Add book </button>
+      <button type="reset" @click="this.books.push({ ...this.form }); this.form.price=null">Add book </button>
     </form>
+    <!-- <p v-show="!books.length">No books...</p>
+    <p v-show="books.length > 3 "> No. of books : {{ books.length }}</p>
+    <p v-show="books.length <= 5 || books.length > 1 || books.length > 0">Not too many of them…</p>
+    <p>-----</p> -->
+    <p v-if="books.length < 1">Get some books !</p>
+    <p v-else-if="books.length > 5 "> No. of books : {{ books.length }}</p>
+    <p v-else-if="books.length <= 5 && books.length > 1 ">Not to many of them...</p>
+    <p v-else-if="books.length == 1 ">One single book</p>
   </div>
 </template>
 <script>
@@ -45,13 +52,13 @@ export default {
   methods: {
     removeBook (index) {
       this.books.splice(index, 1)
-      console.log('delete')
+      console.log('delete', index)
     }
-  },
-  handleSubmit () {
-    this.books.push({ ...this.form })
-    console.log('submit')
   }
+  // handleSubmit () {
+  //   this.books.push({ ...this.form })
+  //   console.log('submit')
+  // }
 }
 </script>
 <style>
