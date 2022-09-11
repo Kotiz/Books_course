@@ -3,12 +3,8 @@
     <header>
       <h1>Books<span>.app</span></h1>
     </header>
-    <ul>
-      <li v-for="(book, index) in books" :key="index">
-        {{ book.title }}, {{ book.price }}$
-        <button @click="removeBook(index)">Delete book</button>
-      </li>
-    </ul>
+    <books-list @remove="removeBook" :books="books" />
+    <books-length-msg :books="books"/>
     <form @submit.prevent="handleSubmit">
       <label>
         Title:
@@ -18,16 +14,18 @@
         Price:
         <input v-model="form.price" type="number" name="price">
       </label>
-      <button type="submit">Add book 2 </button>
+      <button type="submit">Add book</button>
     </form>
-    <p v-if="books.length < 1">Get some books !</p>
-    <p v-else-if="books.length > 5 "> No. of books : {{ books.length }}</p>
-    <p v-else-if="books.length <= 5 && books.length > 1 ">Not to many of them...</p>
-    <p v-else-if="books.length == 1 ">One single book</p>
   </div>
+  <books-summary :books="books" />
 </template>
 <script>
+import BooksList from './components/BooksList.vue'
+import BooksLengthMsg from './components/BooksLengthMsg.vue'
+import booksSummary from './components/BookSummary.vue'
+// import booksItem from './components/BooksItems.vue'
 export default {
+  components: { BooksList, BooksLengthMsg, booksSummary },
   name: 'App',
   data: () => ({
     books: [
@@ -38,11 +36,15 @@ export default {
       {
         title: 'Alicja w krainie czarów',
         price: 18
+      },
+      {
+        title: 'Dracula',
+        price: 10
       }
     ],
     form: {
       title: '',
-      price: null
+      price: 0
     }
   }),
   methods: {
