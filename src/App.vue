@@ -1,24 +1,3 @@
-<template>
-  <div id="app">
-    <header>
-      <h1>Books<span>.app</span></h1>
-    </header>
-    <books-list @remove="removeBook" :books="books" />
-    <books-length-msg :books="books"/>
-    <form @submit.prevent="handleSubmit">
-      <label>
-        Title:
-        <input v-model="form.title" type="text" name="title">
-      </label>
-      <label>
-        Price:
-        <input v-model="form.price" type="number" name="price">
-      </label>
-      <button type="submit">Add book</button>
-    </form>
-  </div>
-  <books-summary :books="books" />
-</template>
 <script>
 import BooksList from './components/BooksList.vue'
 import BooksLengthMsg from './components/BooksLengthMsg.vue'
@@ -64,8 +43,39 @@ export default {
   }
 }
 </script>
-<style>
-  li {
-    padding: 5px;
-  };
-</style>
+<template>
+  <div class="app">
+    <header>
+      <h1 class="app__heading">Books<span>.app</span></h1>
+    </header>
+    <books-list @remove="removeBook" :books="books" />
+    <books-length-msg :books="books"/>
+    <form @submit.prevent="handleSubmit">
+      <label>
+        Title:
+        <input v-model="form.title" type="text" name="title">
+      </label>
+      <label>
+        Price:
+        <input v-model="form.price" type="number" name="price">
+      </label>
+      <button type="submit">Add book</button>
+    </form>
+  </div>
+  <books-summary :books="books" />
+</template>
+<style lang="scss">
+  .app {
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem;
+    margin: 0 auto;
+    &__heading {
+      font-size: 3rem;
+      text-align: center;
+      span {
+        color: #5a58da;
+      }
+    }
+  }
+  </style>
