@@ -2,9 +2,10 @@
 import BooksList from './components/BooksList.vue'
 import BooksLengthMsg from './components/BooksLengthMsg.vue'
 import booksSummary from './components/BookSummary.vue'
+import BookForm from './components/BookForm.vue'
 // import booksItem from './components/BooksItems.vue'
 export default {
-  components: { BooksList, BooksLengthMsg, booksSummary },
+  components: { BooksList, BooksLengthMsg, booksSummary, BookForm },
   name: 'App',
   data: () => ({
     books: [
@@ -20,13 +21,12 @@ export default {
         title: 'Dracula',
         price: 10
       }
-    ],
-    form: {
-      title: '',
-      price: 0
-    }
+    ]
   }),
   methods: {
+    addBook (book) {
+      this.books.push({ ...book })
+    },
     removeBook (index) {
       this.books.splice(index, 1)
       console.log('delete', index)
@@ -50,17 +50,7 @@ export default {
     </header>
     <books-list @remove="removeBook" :books="books" />
     <books-length-msg :books="books"/>
-    <form @submit.prevent="handleSubmit">
-      <label>
-        Title:
-        <input v-model="form.title" type="text" name="title">
-      </label>
-      <label>
-        Price:
-        <input v-model="form.price" type="number" name="price">
-      </label>
-      <button type="submit">Add book</button>
-    </form>
+    <book-form @add="addBook"/>
   </div>
   <books-summary :books="books" />
 </template>

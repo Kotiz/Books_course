@@ -4,7 +4,7 @@ export default {
   data: () => ({
     form: {
       title: '',
-      price: 0
+      price: null
     }
   }),
   methods: {
@@ -24,13 +24,13 @@ export default {
       </label>
       <label>
         Price:
-        <input v-model="form.price" type="number" name="price">
+        <input v-model="form.price" type="number" name="price" class="form__input">
       </label>
       <button class="form__btn">Add book</button>
     </form>
 </template>
 <style lang="scss">
-    .form {
+.form {
       border-radius: 2rem;
       margin: 4rem 1rem;
       box-shadow: 0 20px 40px 0 rgba(107,154,212,.1);
@@ -40,7 +40,6 @@ export default {
       overflow: hidden;
       font-size: 1rem;
       color: #637892;
-    
       &__input {
         background: none;
         border: none;
@@ -57,7 +56,6 @@ export default {
         transition: .2s;
         font-size: 1rem;
       }
-    
       &__btn {
         padding: 1rem 1.5rem;
         border: none;
@@ -77,4 +75,4 @@ export default {
         border-radius: 0.5rem;
       }
     }
-    </style>
+</style>
