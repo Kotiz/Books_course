@@ -3,6 +3,7 @@ import BooksList from './components/BooksList.vue'
 import BooksLengthMsg from './components/BooksLengthMsg.vue'
 import booksSummary from './components/BookSummary.vue'
 import BookForm from './components/BookForm.vue'
+// import { response } from 'express'
 // import booksItem from './components/BooksItems.vue'
 export default {
   components: { BooksList, BooksLengthMsg, booksSummary, BookForm },
@@ -21,7 +22,8 @@ export default {
         title: 'Dracula',
         price: 10
       }
-    ]
+    ],
+    booksApi: []
   }),
   methods: {
     addBook (book) {
@@ -31,14 +33,14 @@ export default {
       this.books.splice(index, 1)
       console.log('delete', index)
     },
-    handleSubmit () {
-      const newBook = { ...this.form }
-      this.books.push(newBook)
-      this.resetForm()
-    },
     resetForm () {
       this.form.price = null
       this.form.title = ''
+    },
+    getBooks () {
+      fetch('https://api.itbook.store/1.0/search/mongodb')
+        .then(response => response.json())
+        .then(data => (this.booksApi = data))
     }
   }
 }
@@ -48,11 +50,16 @@ export default {
     <header>
       <h1 class="app__heading">Books<span>.app</span></h1>
     </header>
+  <div v-for="book in booksApi" :key="book">
+    <span>{{ booksApi.books }}</span>
+  </div>
+    <button @click="getBooks">Show Books</button>
     <books-list @remove="removeBook" :books="books" />
     <books-length-msg :books="books"/>
     <book-form @add="addBook"/>
   </div>
   <books-summary :books="books" />
+  <hr>
 </template>
 <style lang="scss">
   .app {
