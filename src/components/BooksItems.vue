@@ -1,25 +1,22 @@
 <script>
 export default {
-  data () {
-    return {
-      books: [
-        {
-          title: 'Windows Powershell w miesiąc',
-          price: 20
-        },
-        {
-          title: 'Alicja w krainie czarów',
-          price: 18
-        },
-        {
-          title: 'Dracula',
-          price: 10
-        }
-      ]
+  name: 'booksItems',
+  data: () => ({
+    booksApi: [],
+    methods: {
+      getBooks () {
+        fetch('https://api.itbook.store/1.0/search/mongodb')
+          .then(response => response.json())
+          .then(data => (this.booksApi = data))
+      }
     }
   }
+  )
 }
 </script>
 <template>
-    <div></div>
+  <div v-for="book in booksApi" :key="book">
+    <span>{{ booksApi.books }}</span>
+    <button @click="getBooks">Show Books</button>
+  </div>
 </template>
