@@ -9,6 +9,10 @@ export default {
     removeBook: {
       type: Function,
       required: true
+    },
+    booksFromApi: {
+      type: Array,
+      required: true
     }
   }
 }

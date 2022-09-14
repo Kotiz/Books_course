@@ -22,25 +22,32 @@ export default {
         price: 10
       }
     ],
-    booksApi: []
+    booksFromApi: []
   }),
   methods: {
     addBook (book) {
       this.books.push({ ...book })
     },
     removeBook (index) {
-      this.books.splice(index, 1)
+      this.booksFromApi.splice(index, 1)
       console.log('delete', index)
     },
     resetForm () {
       this.form.price = null
       this.form.title = ''
+    },
+    async retrieveBooks () {
+      fetch('https://api.itbook.store/1.0/search/mongodb')
+        .then(response => {
+          console.log('Co tam jest w środku ?', response)
+          response
+            .json()
+            .then(body => {
+              console.log('body', body)
+              this.booksFromApi = body.books
+            })
+        })
     }
-    // getBooks () {
-    //   fetch('https://api.itbook.store/1.0/search/mongodb')
-    //     .then(response => response.json())
-    //     .then(data => (this.booksApi = data))
-    // }
   }
 }
 </script>
@@ -49,14 +56,14 @@ export default {
     <header>
       <h1 class="app__heading">Books<span>.app</span></h1>
     </header>
-  <!-- <div v-for="book in booksApi" :key="book">
-    <span>{{ booksApi.books }}</span>
-  </div>
-    <button @click="getBooks">Show Books</button> -->
     <books-items-vue />
     <books-list @remove="removeBook" :books="books" />
-    <books-length-msg :books="books"/>
+    <books-list @remove="removeBook" :books="booksFromApi" />
+    <!-- <books-length-msg :books="books"/> -->
+    <books-length-msg :books="booksFromApi"/>
     <book-form @add="addBook"/>
+    <button @click="retrieveBooks()"> Fetch Books </button>
+    Books from api : {{ booksFromApi }}
   </div>
   <books-summary :books="books" />
   <hr>
