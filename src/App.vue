@@ -85,7 +85,7 @@ export default {
             .json()
             .then(body => {
               console.log('body', body)
-              this.booksFromApi = body.books.slice(0, 5)
+              this.booksFromApi = body.books.slice(0, 3)
             })
         })
     }
