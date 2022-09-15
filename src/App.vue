@@ -1,3 +1,21 @@
+<template>
+  <div class="app">
+    <header>
+      <h1 class="app__heading">Books<span>.app</span></h1>
+      <!-- <button @click="retrieveBooks()">retrieve</button> -->
+    </header>
+    <books-items-vue />
+    <books-list @remove="removeBook" :books="booksFromApi" />
+    <books-length-msg :books="booksFromApi"/>
+    <books-summary :books="booksFromApi" :books-from-api="books"/>
+    <book-form @add="addBook"/>
+  </div>
+  <books-summary :books="booksFromApi" :books-from-api="books"/> <!-- :books to zmienna która jest stworzona w komponencie dziecka do której przypisujemy konkretną zmienna na której pracujemy-->
+  <hr>
+  <!-- <books-summary :best-seller-3="bestSelleByRating[0]" :best-seller-2="bestSelleByRating[1]" :best-seller-1="bestSelleByRating[2]" /> -->
+  <books-items-vue />
+</template>
+
 <script>
 import BooksList from './components/BooksList.vue'
 import BooksLengthMsg from './components/BooksLengthMsg.vue'
@@ -22,21 +40,44 @@ export default {
         price: 10
       }
     ],
+    bestSellerArray: [
+      {
+        name: 'Kubus puchatek',
+        rating: 10
+      },
+      {
+        name: 'Dupadaupa',
+        rating: 4
+      },
+      {
+        name: 'to nie sa dyrjey',
+        rating: 11
+      }
+    ],
     booksFromApi: []
   }),
+  created () { // VUE lifecycle - wywołanie funkcji po wyrenderowaniu
+    this.retrieveBooks()
+  },
+  // computed: {
+  //   bestSelleByRating () {
+  //     return this.bestSellerArray.sort((a, b) => a.rating - b.rating)
+  //   }
+  // },
   methods: {
     addBook (book) {
       this.books.push({ ...book })
     },
     removeBook (index) {
       this.booksFromApi.splice(index, 1)
-      console.log('delete', index)
+      // this.books.splice(index, 1)
+      // console.log('delete', index)
     },
     resetForm () {
       this.form.price = null
       this.form.title = ''
     },
-    async retrieveBooks () {
+    retrieveBooks () {
       fetch('https://api.itbook.store/1.0/search/mongodb')
         .then(response => {
           console.log('Co tam jest w środku ?', response)
@@ -44,31 +85,13 @@ export default {
             .json()
             .then(body => {
               console.log('body', body)
-              this.booksFromApi = body.books
+              this.booksFromApi = body.books.slice(0, 5)
             })
         })
     }
   }
 }
 </script>
-<template>
-  <div class="app">
-    <header>
-      <h1 class="app__heading">Books<span>.app</span></h1>
-    </header>
-    <books-items-vue />
-    <books-list @remove="removeBook" :books="books" />
-    <books-list @remove="removeBook" :books="booksFromApi" />
-    <!-- <books-length-msg :books="books"/> -->
-    <books-length-msg :books="booksFromApi"/>
-    <book-form @add="addBook"/>
-    <button @click="retrieveBooks()"> Fetch Books </button>
-    Books from api : {{ booksFromApi }}
-  </div>
-  <books-summary :books="books" />
-  <hr>
-  <books-items-vue />
-</template>
 <style lang="scss">
   .app {
     width: 100%;

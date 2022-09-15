@@ -4,15 +4,15 @@ export default {
   props: {
     books: {
       type: Array,
-      required: true
+      required: false
     },
     removeBook: {
       type: Function,
-      required: true
+      required: false
     },
     booksFromApi: {
       type: Array,
-      required: true
+      required: false
     }
   }
 }
@@ -20,8 +20,8 @@ export default {
 <template>
   <div>
     <ul class="books-list">
-      <li class="books-list__item" :class="book.price < 20 && 'books-list__item--promotion' " :key="index" v-for="(book, index) in books">
-        {{ book.title }} - ${{ book.price }}
+      <li class="books-list__item" :class="book.price < 200 && 'books-list__item--promotion' " :key="index" v-for="(book, index) in books">
+        {{ book.title }} - {{ book.price }}
         <button class="books-list__btn" @click="$emit('remove', index)">Remove</button>
       </li>
     </ul>

@@ -5,6 +5,10 @@ export default {
     books: {
       type: Array,
       required: true
+    },
+    booksFromApi: {
+      type: Array,
+      required: false
     }
   }
 }
@@ -15,5 +19,7 @@ export default {
       <p v-else-if="books.length > 5 "> No. of books : {{ books.length }}</p>
       <p v-else-if="books.length <= 5 && books.length > 1 ">Not to many of them...</p>
       <p v-else-if="books.length == 1 ">One single book</p>
+    </div>
+    <div>
     </div>
 </template>
